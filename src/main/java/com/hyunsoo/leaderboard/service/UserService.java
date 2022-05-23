@@ -16,6 +16,11 @@ public class UserService {
 
     private final RedisService redisService;
 
+    /**
+     * @param data user 정보
+     * @return user pk
+     * user 정보를 database에 저장
+     */
     @Transactional
     public String save(UserParsingData data) {
         if (userRepository.existsById(data.getHandle())) {
@@ -32,6 +37,11 @@ public class UserService {
         return user.getId();
     }
 
+    /**
+     * @param id user id
+     * @return User Response
+     * 해당 user의 정보를 반환
+     */
     @Transactional(readOnly = true)
     public UserResponse findById(String id) {
         User user = userRepository.findById(id).orElseThrow(

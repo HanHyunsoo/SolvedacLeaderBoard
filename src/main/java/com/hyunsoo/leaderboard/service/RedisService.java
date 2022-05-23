@@ -20,6 +20,11 @@ public class RedisService {
 
     private final String keyName = "SKHU";
 
+    /**
+     * @param set User 파싱한 정보 set
+     * @return set size 반환
+     * UserParsingData 들을 redis에 sorted set형태로 저장
+     */
     public int saveAll(Set<UserParsingData> set) {
         ZSetOperations<String, Object> zSetOperations = redisTemplate.opsForZSet();
 
@@ -30,6 +35,11 @@ public class RedisService {
         return set.size();
     }
 
+    /**
+     * @param id user id
+     * @return rank number
+     * 해당 user의 rank를 반환
+     */
     public Long findRankById(String id) {
         ZSetOperations<String, Object> zSetOperations = redisTemplate.opsForZSet();
 

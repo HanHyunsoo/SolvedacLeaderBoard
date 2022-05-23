@@ -7,7 +7,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
 
@@ -19,16 +18,22 @@ public class RedisService {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    private final String nowDate = LocalDate.now().toString();
+    private final String keyName = "SKHU";
 
     public int saveAll(Set<UserParsingData> set) {
         ZSetOperations<String, Object> zSetOperations = redisTemplate.opsForZSet();
 
         set.stream().filter(Objects::nonNull).forEach(
-                x -> zSetOperations.add(nowDate, x.getHandle(), x.getExp())
+                x -> zSetOperations.add(keyName, x.getHandle(), x.getExp())
         );
 
         return set.size();
+    }
+
+    public Long findRankById(String id) {
+        ZSetOperations<String, Object> zSetOperations = redisTemplate.opsForZSet();
+
+        return zSetOperations.rank(keyName, id);
     }
 
 }

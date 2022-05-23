@@ -1,6 +1,5 @@
 package com.hyunsoo.leaderboard.parsing;
 
-import com.hyunsoo.leaderboard.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -57,9 +56,9 @@ public class ParsingService {
      * @return UserResponse
      * UserId로 soved.ac api에 정보를 불러와 반환
      */
-    public UserResponse getUserInfo(String userId) {
+    public UserParsingData getUserInfo(String userId) {
         try {
-            return restTemplate.getForObject(sovedAcApiUrl, UserResponse.class, userId);
+            return restTemplate.getForObject(sovedAcApiUrl, UserParsingData.class, userId);
         } catch (HttpClientErrorException.NotFound e) {
             return null;
         }

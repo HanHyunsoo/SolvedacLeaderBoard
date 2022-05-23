@@ -1,9 +1,6 @@
 package com.hyunsoo.leaderboard.model;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -18,13 +15,17 @@ public class User {
 
     private Long exp;
 
-    // TODO: 2022/05/23 tier 번호를 이용해서 티어 이름으로 바꿔야함
-    // ex) 1 -> Bronze V
-//    private String tierName;
+    private Short tier;
 
     @Builder
-    public User(String id, Long exp) {
+    public User(String id, Long exp, short tier) {
         this.id = id;
         this.exp = exp;
+        this.tier = tier;
+    }
+
+    public void update(Long exp, short tier) {
+        this.exp = exp;
+        this.tier = tier;
     }
 }

@@ -9,6 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PriorityQueue;
+
 @RequiredArgsConstructor
 public class UserService {
 
@@ -49,5 +53,21 @@ public class UserService {
         );
 
         return new UserResponse(user, redisService.findRankById(id));
+    }
+
+    /**
+     * @return User Response List
+     * UserResponse 들 반환
+     */
+    @Transactional(readOnly = true)
+    public List<UserResponse> findAll() {
+        List<User> users = userRepository.findAll();
+        PriorityQueue<UserResponse> queue = new PriorityQueue<>(
+                (UserResponse o1, UserResponse o2) -> o1.getRank() >= o2.getRank() ? 1 : -1
+                );
+
+        users.forEach(x -> queue.add(new UserResponse(x, redisService.findRankById(x.getId()))));
+
+        return new ArrayList<>(queue);
     }
 }

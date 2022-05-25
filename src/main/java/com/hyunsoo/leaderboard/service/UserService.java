@@ -29,12 +29,12 @@ public class UserService {
     public String save(UserParsingData data) {
         if (userRepository.existsById(data.getHandle())) {
             User user = userRepository.getById(data.getHandle());
-            user.update(data.getExp(), data.getTier());
+            user.update(data.getRating(), data.getTier());
         }
 
         User user = User.builder()
                 .id(data.getHandle())
-                .exp(data.getExp())
+                .rating(data.getRating())
                 .build();
 
         userRepository.save(user);

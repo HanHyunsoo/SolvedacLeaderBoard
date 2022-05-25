@@ -9,7 +9,7 @@ public class UserResponse {
 
     private final String userId;
 
-    private final Long exp;
+    private final Long rating;
 
     private final String tierName;
 
@@ -19,7 +19,7 @@ public class UserResponse {
 
     public UserResponse(User entity, Long rank) {
         this.userId = entity.getId();
-        this.exp = entity.getExp();
+        this.rating = entity.getRating();
         this.tierName = TierEnum.findByCode(entity.getTier()).getTierName();
         this.profileUrl = "https://solved.ac/profile/" + userId;
         this.rank = rank;

@@ -11,7 +11,7 @@ public class UserParsingData implements Serializable {
 
     private String handle;
 
-    private Long exp;
+    private Long rating;
 
     private Short tier;
 }

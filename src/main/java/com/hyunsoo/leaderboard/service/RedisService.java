@@ -23,7 +23,7 @@ public class RedisService {
      */
     public int saveAll(Set<UserParsingData> set) {
         set.stream().filter(Objects::nonNull).forEach(
-                x -> zSetOperations.add(keyName, x.getHandle(), x.getExp())
+                x -> zSetOperations.add(keyName, x.getHandle(), x.getRating())
         );
 
         return set.size();

@@ -37,7 +37,7 @@ public class UserServiceTests {
     private UserParsingData userParsingData() {
         UserParsingData userParsingData = new UserParsingData();
         userParsingData.setHandle("gustn8523");
-        userParsingData.setExp(10000L);
+        userParsingData.setRating(10000L);
         userParsingData.setTier((short) 5);
 
         return userParsingData;
@@ -50,7 +50,7 @@ public class UserServiceTests {
         UserParsingData dto = userParsingData();
         User user = User.builder()
                 .id(dto.getHandle())
-                .exp(dto.getExp())
+                .rating(dto.getRating())
                 .tier(dto.getTier())
                 .build();
 
@@ -64,7 +64,7 @@ public class UserServiceTests {
         User findUser = userRepository.findById(userId).get();
 
         assertEquals(user.getId(), findUser.getId());
-        assertEquals(user.getExp(), findUser.getExp());
+        assertEquals(user.getRating(), findUser.getRating());
         assertEquals(user.getTier(), findUser.getTier());
     }
 
@@ -75,7 +75,7 @@ public class UserServiceTests {
         UserParsingData dto = userParsingData();
         User user = User.builder()
                 .id(dto.getHandle())
-                .exp(dto.getExp())
+                .rating(dto.getRating())
                 .tier(dto.getTier())
                 .build();
 
@@ -87,7 +87,7 @@ public class UserServiceTests {
 
         // then
         assertEquals(user.getId(), userResponse.getUserId());
-        assertEquals(user.getExp(), userResponse.getExp());
+        assertEquals(user.getRating(), userResponse.getRating());
         assertNotNull(userResponse.getTierName());
         assertNotNull(userResponse.getProfileUrl());
         assertNotNull(userResponse.getRank());
@@ -102,7 +102,7 @@ public class UserServiceTests {
             users.add(
                     User.builder()
                             .id("test" + i)
-                            .exp((long) i)
+                            .rating((long) i)
                             .tier((short) i)
                             .build()
             );

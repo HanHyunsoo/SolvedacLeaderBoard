@@ -13,19 +13,19 @@ public class User {
     @Id
     private String id;
 
-    private Long exp;
+    private Long rating;
 
     private Short tier;
 
     @Builder
-    public User(String id, Long exp, short tier) {
+    public User(String id, Long rating, short tier) {
         this.id = id;
-        this.exp = exp;
+        this.rating = rating;
         this.tier = tier;
     }
 
-    public void update(Long exp, short tier) {
-        this.exp = exp;
+    public void update(Long rating, short tier) {
+        this.rating = rating;
         this.tier = tier;
     }
 }

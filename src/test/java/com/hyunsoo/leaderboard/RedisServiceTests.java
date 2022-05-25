@@ -33,7 +33,7 @@ public class RedisServiceTests {
         for (int i = 0; i < 10000; i++) {
             UserParsingData userParsingData = new UserParsingData();
             userParsingData.setHandle("gustn" + i);
-            userParsingData.setExp((long) (Math.random() * 10000));
+            userParsingData.setRating((long) (Math.random() * 10000));
             userParsingData.setTier((short) (Math.random() * 30 + 1));
             set.add(userParsingData);
         }

@@ -9,7 +9,9 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -62,5 +64,19 @@ public class ParsingService {
         } catch (HttpClientErrorException.NotFound e) {
             return null;
         }
+    }
+
+    /**
+     * @return 모든 UserParsingData set
+     * @throws IOException 파싱이 안될 경우 예외
+     * 성공회대학교에 속한 모든 User 정보를 반환하는 메소드
+     */
+    public Set<UserParsingData> getAllUserInfo() throws IOException {
+        List<String> userIds = getAllUserIds();
+        Set<UserParsingData> userInfos = new HashSet<>();
+
+        userIds.parallelStream().forEach(x -> userInfos.add(getUserInfo(x)));
+
+        return userInfos;
     }
 }

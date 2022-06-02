@@ -6,13 +6,14 @@ import com.hyunsoo.leaderboard.model.UserRepository;
 import com.hyunsoo.leaderboard.parsing.UserParsingData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
+import java.util.stream.Collectors;
 
+@Service
 @RequiredArgsConstructor
 public class UserService {
 
@@ -27,18 +28,42 @@ public class UserService {
      */
     @Transactional
     public String save(UserParsingData data) {
-        if (userRepository.existsById(data.getHandle())) {
-            User user = userRepository.getById(data.getHandle());
-            user.update(data.getRating(), data.getTier());
-        }
+        User user;
 
-        User user = User.builder()
-                .id(data.getHandle())
-                .rating(data.getRating())
-                .build();
+        if (userRepository.existsById(data.getHandle())) {
+            user = userRepository.getById(data.getHandle());
+            user.update(data.getRating(), data.getTier());
+        } else {
+            user = User.builder()
+                    .id(data.getHandle())
+                    .rating(data.getRating())
+                    .tier(data.getTier())
+                    .build();
+        }
 
         userRepository.save(user);
         return user.getId();
+    }
+
+    /**
+     * @param set User info들
+     * @return 저장한 엔티티 개수
+     *
+     */
+    @Transactional
+    public int saveAll(Set<UserParsingData> set) {
+        List<User> users = set.stream()
+                .filter(Objects::nonNull)
+                .map(x -> User.builder()
+                        .id(x.getHandle())
+                        .rating(x.getRating())
+                        .tier(x.getTier())
+                        .build())
+                .collect(Collectors.toList());
+
+        userRepository.saveAll(users);
+
+        return users.size();
     }
 
     /**

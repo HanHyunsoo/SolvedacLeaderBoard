@@ -87,12 +87,15 @@ public class UserService {
     @Transactional(readOnly = true)
     public List<UserResponse> findAll() {
         List<User> users = userRepository.findAll();
-        PriorityQueue<UserResponse> queue = new PriorityQueue<>(
-                (UserResponse o1, UserResponse o2) -> o1.getRank() >= o2.getRank() ? 1 : -1
-                );
+        PriorityQueue<UserResponse> priorityQueue = new PriorityQueue<>(((o1, o2) -> (int) (o2.getRating() - o1.getRating())));
 
-        users.forEach(x -> queue.add(new UserResponse(x, redisService.findRankById(x.getId()))));
+        users.forEach(x -> priorityQueue.add(new UserResponse(x, redisService.findRankById(x.getId()) + 1)));
+        List<UserResponse> userResponses = new ArrayList<>();
 
-        return new ArrayList<>(queue);
+        while (!priorityQueue.isEmpty()) {
+            userResponses.add(priorityQueue.poll());
+        }
+
+        return userResponses;
     }
 }

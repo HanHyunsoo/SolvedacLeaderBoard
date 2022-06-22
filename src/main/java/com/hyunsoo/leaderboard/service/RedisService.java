@@ -35,7 +35,7 @@ public class RedisService {
      * 해당 user의 rank를 반환
      */
     public Long findRankById(String id) {
-        return zSetOperations.rank(keyName, id);
+        return zSetOperations.reverseRank(keyName, id);
     }
 
 }

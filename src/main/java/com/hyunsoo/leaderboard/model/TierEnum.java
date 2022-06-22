@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 
 @Getter
 public enum TierEnum {
+    UNRANK(0, "Unrank"),
     BRONZE_V(1, "Bronze V"),
     BRONZE_IV(2, "Bronze IV"),
     BRONZE_III(3, "Bronze III"),
